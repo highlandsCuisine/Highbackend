@@ -1,0 +1,36 @@
+<h1 class="ml-16 mt-2 text-lg font-bold">Add Category</h1>
+<form
+  action="/api/v1/menu/create"
+  method="POST"
+  class="grid grid-cols-1 gap-6 ml-16 mt-8 md:grid-cols-2"
+>
+  <div>
+    <label class="block mb-2 text-sm text-gray-600">Menu Category</label>
+    <input type="text" name="x-csrf-token" value="<%= token %>" hidden />
+    <input
+      type="text"
+      name="title"
+      placeholder="Title"
+      class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40"
+    />
+  </div>
+
+  <div>
+    <label class="block mb-2 text-sm text-gray-600">Category Description</label>
+    <input
+      type="text"
+      name="desc"
+      placeholder="Description"
+      class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40"
+    />
+  </div>
+
+  <button
+    type="submit"
+    class="flex items-center justify-center w-36 px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50"
+  >
+    <span>Add Category </span>
+  </button>
+</form>
+
+<!-- submenu -->

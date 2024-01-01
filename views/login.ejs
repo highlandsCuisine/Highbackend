@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../../styles/style.css" />
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/NirdoshL/office/main/logo%20(1).ico"
+      sizes="48x48"
+    />
+
+    <title>Login | HighLands Indian Cuisine</title>
+  </head>
+
+  <body
+    class="flex flex-col h-screen w-full items-center justify-center bg-gray-900 opacity-80 bg-cover bg-no-repeat"
+    style="
+      background-image: url('https://media.discordapp.net/attachments/1086987704434167828/1170973439604043907/bg.jpg?ex=655afcff&is=654887ff&hm=aaef1c6a25cd1a8c68c0ea65a64e904fc68fcf84a895f65ff541ca739f7b9d42&=&width=718&height=468');
+    "
+  >
+    <div
+      class="rounded-xl bg-black bg-opacity-70 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8"
+    >
+      <div class="text-white">
+        <div class="mb-8 flex flex-col items-center">
+          <img
+            src="https://media.discordapp.net/attachments/1086987704434167828/1170973440551964693/logo.png?ex=655afcff&is=654887ff&hm=ba9dc95e288896ebfeca4495c22bab3f25bcb08693a1683336fa13907549f88f&="
+            width="150"
+            alt=""
+            srcset=""
+          />
+          <h1 class="mb-2 text-2xl">HighLands Admin Login</h1>
+          <span class="text-gray-300">Enter Login Details</span>
+        </div>
+        <form id="loginForm">
+          <input type="text" name="x-csrf-token" value="<%= token %>" hidden />
+          <div class="mb-4 text-lg">
+            <input
+              class="rounded-3xl border-none bg-yellow-600 px-6 py-2 text-center text-inherit placeholder-gray-200 shadow-lg outline-none backdrop-blur-md"
+              type="email"
+              name="email"
+              placeholder="id@email.com"
+              required
+            />
+          </div>
+
+          <div class="mb-4 text-lg">
+            <input
+              class="rounded-3xl border-none bg-yellow-600 px-6 py-2 text-center text-inherit placeholder-gray-200 shadow-lg outline-none backdrop-blur-md"
+              type="Password"
+              name="password"
+              placeholder="*********"
+              required
+            />
+          </div>
+          <div class="mt-8 flex justify-center text-lg text-black">
+            <button
+              type="submit"
+              class="rounded-3xl bg-green-600 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-green-700"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+        <div id="error-container" class="w-[200px]"></div>
+      </div>
+    </div>
+    <script src="../../../scripts/login.js" defer></script>
+  </body>
+</html>

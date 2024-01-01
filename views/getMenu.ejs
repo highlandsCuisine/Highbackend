@@ -1,0 +1,153 @@
+<div class="h-full ml-14 mt-14 mb-10">
+  <div class="mt-4 mx-4">
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr
+              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b  bg-gray-50  "
+            >
+              <th class="px-4 py-3">Menu Id</th>
+              <th class="px-4 py-3">Title</th>
+              <th class="px-4 py-3">Description</th>
+              <th class="px-4 py-3">Sub Menu</th>
+              <th class="px-4 py-3">Edit</th>
+            </tr>
+          </thead>
+          <tbody
+            class="bg-white divide-y  "
+          >
+            <% menu.map((menu, index) => { %>
+            <tr
+              key="<%= index %>"
+              class="bg-gray-50  hover:bg-gray-100  text-gray-700 "
+            >
+              <td class="px-4 py-3">
+                <div class="flex items-center text-sm">
+                  <div>
+                    <p class="font-semibold"><%= menu.id %></p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3 text-sm "><%= menu.title %></td>
+              <td class="px-4 py-3 text-xs">
+                <span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full "
+                >
+                  <%= menu.desc %>
+                </span>
+              </td>
+              <td class="px-4 py-3 w-12 text-xs">
+                <span
+                  class="px-2 py-1 m-1 font-semibold leading-tight text-green-700  rounded-full "
+                >
+                  <% menu.submenu.forEach((x) => { %>
+                    <div class="m-1">
+                    <%= `${x.title}:${x.price}` %>
+                  </div>
+                  <% }) %>
+                </span>
+              </td>
+              
+              
+              <td class="px-4 py-3 text-sm">
+                <button class="openPopupButton cursor-pointer" data-token="<%= token %>" data-menu-id="<%= menu.id %>" data-submenu="<%= JSON.stringify(menu.submenu) %>">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-emerald-500"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+            <% }) %>
+
+            <!-- on -->
+          </tbody>
+        </table>
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+
+<!-- Popup Form -->
+
+  
+</div>
+<div id="popupForm" class=" bg-green-300 p-4 rounded-xl border-2 border-black " style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 80vh; overflow-y: auto;">
+  <div class="flex flex-row justify-between p-4 rounded-full  ">
+<h1 class="ml-16 mt-6 text-lg text-black font-bold">Add SubMenu</h1>
+<button class="flex h-6 w-6 bg-white rounded-full justify-center items-center " id="closePopup"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+</button>
+
+</div>
+<form
+  action="/api/v1/menu/create/submenu"
+  method="POST"
+  class="grid grid-cols-1 gap-6 ml-16 mt-8 md:grid-cols-2"
+>
+<input type="hidden" name="id" id="menuIdField" value="" />
+
+  <div class="mx-4">
+    <label class="block mb-2 text-sm text-gray-800 "
+      >Menu Title</label
+    >
+    <input type="text" name="x-csrf-token" value="<%= token %>" hidden />
+    <input
+      type="text"
+      name="title"
+      placeholder="Title"
+      class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40"
+    />
+  </div>
+
+  <div>
+    <label class="block mb-2 text-sm text-gray-800 "
+      >Menu Description</label
+    >
+    <input
+      type="text"
+      name="desc"
+      placeholder="Description"
+      class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40"
+    />
+  </div>
+
+  <div class="mx-4">
+    <label class="block mb-2 text-sm text-gray-800 "
+      >Menu Price</label
+    >
+    <input
+      type="text"
+      name="price"
+      placeholder="Price"
+      class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40"
+    />
+  </div>
+
+  <button
+    type="submit"
+    class="flex items-center justify-center h-16 w-36 px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50"
+  >
+    <span>Add SubMenu </span>
+  </button>
+</form>
+<h1 class="ml-16 mt-6  mb-6 text-lg text-black font-bold">Add Addons</h1>
+<div class="text-black " id="submenuDisplay"></div>
+
+<script src="../../../scripts/addonsPop.js" defer></script>
+
+</div>

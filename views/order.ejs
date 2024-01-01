@@ -1,0 +1,165 @@
+<div class="h-full ml-14 mt-14 mb-10">
+  <div class="mt-4 mx-4">
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr
+              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b  bg-gray-50  "
+            >
+              <th class="px-4 py-3">S.N</th>
+              <th class="px-4 py-3">Order ID</th>
+              <th class="px-4 py-3">Ordered By</th>
+              <th class="px-4 py-3">Amount</th>
+              <th class="px-4 py-3">Refunded</th>
+              <th class="px-4 py-3">Items</th>
+              <th class="px-4 py-3">Kitchen</th>
+              <th class="px-4 py-3">Print</th>
+              <th class="px-4 py-3">Paid</th>
+              <th class="px-4 py-3">Details</th>
+            </tr>
+          </thead>
+          <tbody
+            class="bg-white divide-y"
+          >
+            <% data.data.map((order, index) => { %>
+            <tr
+              key="<%= index %>"
+              class="bg-gray-50  hover:bg-gray-100  text-gray-700 "
+            >
+              <td class="px-4 py-3 text-sm"><%= index %></td>
+              <td class="px-4 py-3">
+                <div class="flex items-center text-sm">
+                  <div>
+                    <p class="font-semibold"><%= order.id %></p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3 text-sm">
+                <%= order.billing_details.name %>
+              </td>
+              <td class="px-4 py-3 text-xs">
+                <span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full"
+                >
+                  $ <%= order.amount/100 %>
+                </span>
+              </td>
+              <td class="px-4 py-3 w-12 text-xs">
+                <span
+                  class="px-2 py-1 m-1 font-semibold leading-tight text-green-700 rounded-full"
+                >
+                  $ <%= order.amount_refunded/100 %>
+                </span>
+              </td>
+              <td class="px-4 py-3 w-12 text-xs">
+                <table class="w-full text-sm text-left text-gray-500 ">
+                  <thead>
+                    <tr
+                       class="text-xs font-light tracking-wide text-left text-gray-500 uppercase border-b  bg-gray-50  "
+                      >
+                      <th class="px-4 py-3">S.N</th>
+                      <th class="px-4 py-3">Name</th>
+                      <th class="px-4 py-3">QTY</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                <% metadata.forEach((item) => { %>
+                  <% if (item.cid === order.customer) { %>
+                    <% item.data.forEach((dataItem,index) => { %>
+                
+                        <tr class="bg-inherit border-b  ">
+                            <td class="py-1 px-6 font-bold"><%= index+1 %></td>
+                            <td class="py-1 px-6"><%= dataItem.title %><br/>
+                            <% if (dataItem.addon && dataItem.addon.length > 0) { %>
+                              (<%= dataItem.addon.map(addon => addon.title).join(', ') %>)
+                            <% } %>
+                          </td>
+                          <td class="py-1 px-6"><%= dataItem.quantity %></td>
+                        </tr>
+                    <% }); %>
+                  <% } %>
+                <% }); %>
+              </tbody>
+            </table>
+            </td>
+            <td class="px-4 py-3 w-12 text-sm">
+              <form action="/api/v1/print/generatepdf/kitchen" method="post">
+                <input type="text" name="x-csrf-token" value="<%= token %>" hidden />
+                <input type="text" name="orderBy" value="<%= order.billing_details.name %>" hidden />
+                <input type="text" name="status" value="<%= order.paid %>" hidden />
+                <input type="text" name="customer" value="<%= order.customer %>" hidden />  
+                <input type="text" name="metadata" value="<%= JSON.stringify(metadata) %>" hidden />   
+                <button type="submit">Kitchen</button> 
+              </form>
+             
+            </td>
+
+            <td class="px-4 py-3 w-12 text-sm">
+              <form action="/api/v1/print/generatepdf" method="post">
+                <input type="text" name="x-csrf-token" value="<%= token %>" hidden />
+                <input type="text" name="conformationId" value="<%= order.id %>" hidden />
+                <input type="text" name="subTotal" value="<%= order.amount/100 %>" hidden />
+                <input type="text" name="orderBy" value="<%= order.billing_details.name %>" hidden />
+                <input type="text" name="status" value="<%= order.paid %>" hidden />
+                <input type="text" name="line1" value="<%= order.billing_details.address.line1 %>" hidden />
+                <input type="text" name="line2" value="<%= order.billing_details.address.line1 %>" hidden />
+                <input type="text" name="city" value="<%= order.billing_details.address.city %>" hidden />
+                <input type="text" name="country" value="<%= order.billing_details.address.country %>" hidden />  
+                <input type="text" name="customer" value="<%= order.customer %>" hidden />             
+                <input type="text" name="metadata" value="<%= JSON.stringify(metadata) %>" hidden />   
+
+                <button type="submit">Print</button> 
+              </form>
+             
+            </td>
+         
+              <td class="px-4 py-3 w-12 text-sm">
+                <% if (order.paid) { %>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4  text-green-500 m-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                <% } else { %>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4  text-red-500  m-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  
+                <% } %>
+              </td>
+              
+              
+              
+
+              <td class="px-4 py-3 text-sm">
+                <button class="openPopupButton cursor-pointer" data-order="<%= JSON.stringify(order) %>">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </button>
+              </td>
+
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main -->
+
+<!-- Popup Form -->
+</div>
+<div id="popupForm" class=" bg-green-300 p-4 rounded-xl border-2 border-black " style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 80vh; overflow-y: auto;">
+  <div class="flex flex-row justify-between p-4 rounded-full  ">
+<h1 class="ml-16 mt-6 text-lg text-black font-bold">Full Details</h1>
+<button class="flex h-8 w-8 bg-white rounded-full justify-center items-center " id="closePopup">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-black-500">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+</button>
+</div>
+<div class="text-black " id="submenuDisplay"></div>
+<script src="../../../scripts/ordersPop.js" defer></script>
+</div>

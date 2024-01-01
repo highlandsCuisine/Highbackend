@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title> res </title>
+    <style>
+      * {
+        font-size: 10px;
+        font-family: "Times New Roman";
+      }
+
+      .ticket {
+        width: 250px;
+        max-width: 100%;
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .ticket .centered{
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .ticket .centered-address{
+        font-size: 8px;
+      }
+  
+
+      th {
+        border-top: 1px dashed black;
+        border-bottom: 1px dashed black;
+        border-collapse: collapse;
+      }
+
+      td.description,
+      th.description {
+        width: 75px;
+        max-width: 75px;
+      }
+
+      td.quantity,
+      th.quantity {
+        width: 40px;
+        max-width: 40px;
+        word-break: break-all;
+      }
+
+      td.price,
+      th.price {
+        width: 40px;
+        max-width: 40px;
+        word-break: break-all;
+      }
+
+      .centered {
+        text-align: center;
+        align-content: center;
+      }
+
+      .horizontal-line {
+        border-top: 1px dashed #000;
+      }
+
+      .left-label {
+        text-align: left;
+        margin-left: 20px;
+      }
+
+      @media print {
+        .hidden-print,
+        .hidden-print * {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ticket">
+      <p class="centered"> Highlands Indian Cuisine  <br />
+        <address class="centered-address">
+        9344 Dorchester Street, Highlands Ranch, Colorado 80129, United States
+      </address></p>
+      <p class="left-label">Bill No: <%= conformationId %></p>
+      <p class="left-label">Date: <%=  date %></p>
+      <p class="left-label">Name: <%= orderBy %> </p>
+      <p class="left-label">
+        Address: 
+        <i>
+        <%= line1 %> , 
+        <%= line2 %> ,  
+        <%= city %> , 
+        <%= country %>
+        </i>
+      </p>
+      <p class="left-label">Payment mode: Highland</p>
+      <table>
+        <thead>
+          <tr>
+            <th class="quantity">Qty.</th>
+            <th class="description">Items</th>
+            <th class="price">Rate$</th>
+            <th class="price">Amt$</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% JSON.parse(metadata).forEach((item) => { %>
+            <% if (item.cid === customer) { %>
+              <% item.data.forEach((dataItem,index) => { %>
+          
+                  <tr >
+                      <td ><%= dataItem.quantity %></td>
+                      <td><%= dataItem.title %><br/>
+                      <% if (dataItem.addon && dataItem.addon.length > 1) { %>
+                        (<%= dataItem.addon.map(addon => addon.title).join(', ') %>)
+                      <% } %>
+                    </td>
+                    <td class="py-1 px-6"><%= dataItem.addon.length>1?(parseFloat(dataItem.price)+parseFloat(dataItem.addon[1].price)):dataItem.price %></td>
+                    <td class="py-1 px-6"><%= dataItem.addon.length>1?(dataItem.quantity*(parseFloat(dataItem.price)+parseFloat(dataItem.addon[1].price))):dataItem.quantity*dataItem.price %></td>
+                  </tr>
+              <% }); %>
+            <% } %>
+          <% }); %>
+        </tbody>
+      </table>
+      <div class="horizontal-line"></div>
+      <table>
+        <tbody>
+          
+          <tr>
+            <td>Discount</td>
+            <td>:</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>Tax</td>
+            <td>:</td>
+            <td>8.85%</td>
+          </tr>
+          <tr>
+            <td>Total Amount</td>
+            <td>:</td>
+            <td>$<%= subTotal %> (including charges & tax)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="horizontal-line"></div>
+      <p class="centered">
+        Once the product is received by you, it is your responsibility to take
+        care of the product.Thank you!
+      </p>
+     
+  </body>
+</html>

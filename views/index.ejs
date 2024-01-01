@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../../styles/style.css" />
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/NirdoshL/office/main/logo%20(1).ico"
+      sizes="48x48"
+    />
+    <title><%= title %>| HighLands Indian Cuisine</title>
+    <style>
+      .header-right {
+        width: calc(100% - 3.5rem);
+      }
+      .sidebar:hover {
+        width: 16rem;
+      }
+      @media only screen and (min-width: 768px) {
+        .header-right {
+          width: calc(100% - 16rem);
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white text-black"
+  >
+    <!-- header -->
+    <%- include("header.ejs") %>
+    <!-- header -->
+
+    <!-- Sidebar -->
+    <%- include("sidebar.ejs") %>
+    <!-- Sidebar -->
+
+    <!-- main -->
+    <div class="h-full ml-14 mt-14 mb-10 md:ml-64"><%- include(page) %></div>
+    <!-- main -->
+  </body>
+</html>

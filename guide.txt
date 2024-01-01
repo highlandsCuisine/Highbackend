@@ -1,0 +1,32 @@
+                                   <................. Guide .................>
+
+          <---------In Terminal with node running main folder, run following commands ----------->
+
+
+1. npm i    // this will install all dependencies / packages
+2. npm i -D nodemon    // to run server
+3. npm i -g pm2        // for node clustering(run only in production mode otherwise it will use your max CPU)
+
+*********************Production Mode(only use this commands in production) *********************
+
+follow above commands too and start pm2 for clustering by 
+
+1. pm2 start your_app.js -i max // (In our case there is script so run pm2 start pm2.config.js)
+2. pm2 list   // information about cluster
+3. pm2 startup  // to start pm2(this will help to rebuild the system if system crashes)
+4. pm2 save  // to  save the list of running processes and their configurations
+5. pm2 logs your_app  // to monitor logs (helps in bug fixing)
+6. pm2 scale your_app <number_of_instances>  //to scale your running instances dynamically
+7. pm2 restart your_app //to restart pm2
+8. pm2 stop your_app //to stop pm2
+9. pm2 delete your_app // to delete pm2
+
+
+Notes:{
+    1. postcss file is required in production mode if not present opens path for xss attack through known vulnerabilities tailwindcss
+    2. service.json file from firebase service should be just inside backend folder not inside any sub-folder
+    3. make sure to clear logs.txt file before entering into production mode
+    4. never forgot to setup stripe webhook(event in stripe) for webhook events
+    5. convert secure option to true in csrfMiddleware
+    6. change projectId to company firebase id in dababase connection
+}
